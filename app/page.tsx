@@ -1,10 +1,21 @@
+"use client";
+
 import Link from 'next/link';
 import Header from '@/app/components/Header';
-import SignInForm from '@/app/components/SignInForm';
+import { useAuth } from './lib/AuthContext';
+import LogoutButton from './components/LogoutButton';
+import { useState, useEffect } from 'react';
 
 
 
 export default function Home() {
+  const { user, loading } = useAuth();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <>
       <Header />
@@ -15,12 +26,20 @@ export default function Home() {
         <p>Ta zawartość jest renderowana przez `app/page.tsx` i umieszczona wewnątrz `RootLayout`.</p>
       </div>
       <div className="mt-8 flex gap-4">
-        <Link href="/user/signin" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-          Logowanie
-        </Link>
-        <Link href="/user/register" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Rejestracja
-        </Link>
+        {!isClient || loading ? (
+          <div>Loading...</div>
+        ) : user ? (
+          <LogoutButton />
+        ) : (
+          <>
+            <Link href="/user/signin" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+              Logowanie
+            </Link>
+            <Link href="/user/register" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Rejestracja
+            </Link>
+          </>
+        )}
       </div>
     </main>
     </>
