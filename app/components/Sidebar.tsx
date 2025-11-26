@@ -1,7 +1,11 @@
+"use client"
+
 import Link from 'next/link';
 import { TbMenu3 } from "react-icons/tb";
+import { useAuth } from '@/app/lib/AuthContext';
 
 const Sidebar = () => {
+  const { user } = useAuth();
   return (
     <div className="relative group text-lg [font-family:var(--font-manrope)]">
       {/* Trigger element for the dropdown */}
@@ -26,6 +30,11 @@ const Sidebar = () => {
         <Link href="/fourth" className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
           Zajęcia
         </Link>
+        {user && (
+          <Link href="/user/profile" className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
+            Profil
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -1,24 +1,86 @@
+"use client"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import InputField from "@/app/components/InputField";
 import Link from "next/link";
 import ButtonBlack from "@/app/components/ButtonBlack";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
+import { useAuth } from "@/app/lib/AuthContext";
 
+interface RegisterFormProps {
+    setRegisterError: (error: string) => void;
+}
 
-export default function RegisterForm() {
+export default function RegisterForm({ setRegisterError }: RegisterFormProps) {
+    const { user } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (user) {
+            router.push('/home');
+        }
+    }, [user, router]);
+
+    const onSubmit = (e: React.FormElement<HTMLFormElement>) => {
+        e.preventDefault();
+        setRegisterError("");
+        const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
+        const password = (e.currentTarget.elements.namedItem('password') as HTMLInputElement).value;
+        const passwordConfirm = (e.currentTarget.elements.namedItem('passwordConfirm') as HTMLInputElement).value;
+
+        if (password !== passwordConfirm) {
+            setRegisterError("Hasła nie są takie same.");
+            return;
+        }
+
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                console.log("User registered!");
+                if (auth.currentUser) {
+                    sendEmailVerification(auth.currentUser)
+                        .then(() => {
+                            console.log("Email verification send!");
+                            router.push("/user/verify");
+                        });
+                }
+            })
+            .catch((error) => {
+                 if (error.code === 'auth/email-already-in-use') {
+                    setRegisterError("Ten adres email jest już zajęty.");
+                } else if (error.code === 'auth/weak-password') {
+                    setRegisterError("Hasło jest zbyt słabe. Powinno mieć co najmniej 6 znaków.");
+                } else {
+                    setRegisterError("Wystąpił nieoczekiwany błąd. Spróbuj ponownie.");
+                }
+                console.dir(error);
+            });
+    };
+
+    if (user) {
+        return null;
+    }
+
     return (
         <>
-        <div style={{backgroundColor: "rgba(245, 255, 234, 0.1)", boxShadow: "inset 0 8px 16px 0 rgba(128, 255, 0, 0.2)"}} className="w-[360px] h-[460px] rounded-[20px] p-[20px] backdrop-blur-[20px]">
-            <form className="h-full flex flex-col justify-center items-center">
+        <div style={{backgroundColor: "rgba(245, 255, 234, 0.1)", boxShadow: "inset 0 8px 16px 0 rgba(128, 255, 0, 0.2)"}} className="w-[360px] h-[500px] rounded-[20px] p-[20px] backdrop-blur-[20px]">
+            <form onSubmit={onSubmit} className="h-full flex flex-col justify-center items-center">
                 <div className="text-[20px] [font-family:var(--font-manropeSemiBold)] mb-[20px]"> Zarejestruj się</div>
-            <div className="">
-                <InputField label="Username" placeholder="Username"/>
+            <div className="w-full max-w-[280px]">
+                <InputField id="email" name="email" type="email" label="Email" placeholder="Email" required/>
             </div>
 
-            <div className="mt-[20px]">
-                <InputField label="Password" placeholder="Password"/>
+            <div className="mt-[20px] w-full max-w-[280px]">
+                <InputField id="password" name="password" type="password" label="Hasło" placeholder="Hasło"/>
+            </div>
+            <div className="mt-[20px] w-full max-w-[280px]">
+                <InputField id="passwordConfirm" name="passwordConfirm" type="password" label="Powtórz hasło" placeholder="Powtórz hasło"/>
             </div>
 
             <div className="mt-[20px] flex items-center justify-center">
-                <ButtonBlack nameButton="Register"/>
+                <button type="submit" className="w-[130px] h-[48px] p-[10px] rounded-[30px] bg-gray-800 text-white cursor-pointer">
+                    Register
+                </button>
             </div>
             <div className="mt-[50px] flex items-center justify-center flex-col gap-y-[10px]">
                 <div className="text-[16px] [font-family:var(--font-manrope)]">Masz juz konto?</div>

@@ -1,11 +1,24 @@
-export default function InputField({placeholder, label}: {placeholder: string, label: string}) {
+"use client"
+export default function InputField({placeholder, label, name, type, id, required, defaultValue, readOnly}: {placeholder: string, label: string, name: string, type: string, id: string, required?: boolean, defaultValue?: string, readOnly?: boolean}) {
     return (
         <>
-            <label style={{backgroundColor: "gray-800"}} className="block text-gray-800 dark:text-gray-200 mb-[10px] [font-family:var(--font-manrope)] text-[16px]">{ label }</label>
+            <label 
+                htmlFor={id} 
+                className="block mb-1 text-sm text-left w-full [font-family:var(--font-manrope)] mb-[10px]" 
+                style={{color: "#D9D9D9"}}
+            >
+                {label}
+            </label>
             <input 
-                type="text" 
-                className="w-[312px] h-[48px] rounded-[15px] px-[10px] [font-family:var(--font-manrope)] border-none " 
-                placeholder={placeholder}/>
+                id={id}
+                name={name}
+                type={type} 
+                placeholder={placeholder}
+                required={required}
+                defaultValue={defaultValue}
+                readOnly={readOnly}
+                className={`block w-full px-3 py-2 rounded-[16px] h-[48px] text-black border-none focus:outline-none [font-family:var(--font-manrope)] pl-[10px] ${readOnly ? 'bg-gray-200 cursor-not-allowed' : 'bg-white'}`}
+            />
         </>
     )
 }
