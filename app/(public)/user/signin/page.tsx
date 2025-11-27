@@ -2,7 +2,7 @@
 import { useState, FormEvent } from "react";
 import SignInForm from "../../../components/SignInForm";
 import Image from "next/image";
-import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
+import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence, signOut, sendEmailVerification } from "firebase/auth";
 import { auth } from "@/app/lib/firebase/firebase";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -22,7 +22,15 @@ export default function SignInPage() {
     .then( () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-         router.push(returnUrl);
+        if (userCredential.user.emailVerified) {
+          router.push(returnUrl);
+        } else {
+          sendEmailVerification(userCredential.user).then(() => {
+            signOut(auth).then(() => {
+              router.push(`/user/verify?from=signin&email=${userCredential.user.email}`);
+            });
+          });
+        }
       })
       .catch((error) => {
         if (error.code === 'auth/invalid-credential') {
