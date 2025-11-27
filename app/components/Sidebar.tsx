@@ -1,6 +1,5 @@
 "use client"
-
-import Link from 'next/link';
+import LinkComponent from "./LinkComponent"
 import { TbMenu3 } from "react-icons/tb";
 import { useAuth } from '@/app/lib/AuthContext';
 
@@ -17,24 +16,10 @@ const Sidebar = () => {
       </div>
 
       {/* Dropdown menu */}
-      <div className="absolute left-0 hidden group-hover:block mt-2 w-48 bg-black border border-gray-700 rounded-md shadow-lg py-1 z-10">
-        <Link href="/" className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
-          Główna
-        </Link>
-        <Link href="/second" className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
-          O nas
-        </Link>
-        <Link href="/third" className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
-          Karnet
-        </Link>
-        <Link href="/fourth" className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
-          Zajęcia
-        </Link>
-        {user && (
-          <Link href="/user/profile" className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
-            Profil
-          </Link>
-        )}
+      <div className="absolute left-0 hidden group-hover:block w-[200px] bg-black border border-gray-700 rounded-[10px] shadow-[20px] py-[5px] z-10">
+        <LinkComponent link="/user/profil" title="Profil uzytkownika"/>
+        <LinkComponent link="./" title="Główna"/>
+        <LinkComponent link="./" title="Karnet"/>
       </div>
     </div>
   );

@@ -64,9 +64,9 @@ export default function ProfilePage() {
       <main className="flex min-h-screen flex-col items-center justify-center">
         <div style={{backgroundColor: "rgba(245, 255, 234, 0.1)", boxShadow: "inset 0 8px 16px 0 rgba(128, 255, 0, 0.2)"}} className="w-auto min-w-[400px] rounded-[20px] p-[20px] backdrop-blur-[20px]">
           <form onSubmit={onSubmit} className="h-full flex flex-col justify-center items-center">
-            <h2 className="text-2xl font-bold mb-6">Profil Użytkownika</h2>
+            <h2 className="text-2xl font-bold mb-[20px] [font-family:var(--font-manrope)">Profil użytkownika</h2>
             
-            <div className="w-full max-w-sm mb-4">
+            <div className="w-[300px] max-w-sm mb-[20px]">
               <InputField
                 id="displayName"
                 name="displayName"
@@ -77,7 +77,7 @@ export default function ProfilePage() {
               />
             </div>
 
-            <div className="w-full max-w-sm mb-4">
+            <div className="w-[300px] max-w-sm mb-[20px]">
               <InputField
                 id="email"
                 name="email"
@@ -89,7 +89,7 @@ export default function ProfilePage() {
               />
             </div>
             
-            <div className="w-full max-w-sm mb-6">
+            <div className="w-[300px] max-w-sm mb-[20px]">
               <InputField
                 id="photoURL"
                 name="photoURL"
@@ -100,7 +100,7 @@ export default function ProfilePage() {
               />
             </div>
 
-            <ButtonBlack nameButton="Zaktualizuj Profil" type="submit" />
+            <ButtonBlack nameButton="Zaktualizuj" type="submit" />
           </form>
         </div>
       </main>
