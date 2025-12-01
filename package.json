@@ -2,6 +2,7 @@
   "name": "gym",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +12,7 @@
   "dependencies": {
     "@next/env": "^16.0.3",
     "@tailwindcss/forms": "^0.5.10",
+    "dotenv": "^17.2.3",
     "firebase": "^12.6.0",
     "next": "16.0.3",
     "react": "19.2.0",
