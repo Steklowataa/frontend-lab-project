@@ -3,6 +3,8 @@ import { useAuth } from "@/app/lib/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Header from "@/app/components/Header";
+import TrainingGrafic from "@/app/components/TrainingGrafic/TrainigGrafic";
+
 
 export default function HomePage() {
     const { user, loading } = useAuth();
@@ -22,7 +24,7 @@ export default function HomePage() {
         <>
             <Header ifLoged={true}/>
             <main className="flex min-h-screen flex-col items-center justify-center p-24">
-                <h1 className="text-3xl font-bold mb-4">Jesteś zalogowany.</h1>
+                <TrainingGrafic/>
             </main>
         </>
     );
