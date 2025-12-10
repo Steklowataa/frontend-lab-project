@@ -17,7 +17,7 @@ export default function ButtonGrafic({
   return (
     <button
       onClick={onClick}
-      className={`p-3 text-center font-semibold bg-transparent [font-family:var(--font-manropeSemiBold)] ${
+      className={`p-3 text-center font-semibold bg-transparent [font-family:var(--font-manropeSemiBold)] cursor-pointer ${
         isActive
           ? "text-lime-400 border-b-2 border-lime-400"
           : "text-gray-400 hover:text-white"

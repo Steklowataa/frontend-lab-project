@@ -11,7 +11,7 @@ export default function SignInPage() {
   const [error, setError] = useState("");
   const params = useSearchParams();
   const router = useRouter();
-  const returnUrl = params.get("returnUrl") || "/home";
+  const returnUrl = params.get("returnUrl") || "/zajecia";
   
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -6,12 +6,14 @@ interface ScheduleListProps {
   activeDay: Date;
   hoursForActiveDay: number[];
   trainingsByDayAndHour: Record<string, Training>;
+  onSignUp: (training: Training, date: Date) => void;
 }
 
 export default function ScheduleList({
   activeDay,
   hoursForActiveDay,
-  trainingsByDayAndHour
+  trainingsByDayAndHour,
+  onSignUp
 }: ScheduleListProps) {
   if (hoursForActiveDay.length === 0) {
     return (
@@ -37,6 +39,7 @@ export default function ScheduleList({
             key={`${activeDay.toISOString()}-${hour}`}
             hour={hour}
             training={training}
+            onSignUp={training ? () => onSignUp(training, activeDay) : undefined}
           />
         );
       })}
