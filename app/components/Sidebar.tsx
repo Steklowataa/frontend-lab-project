@@ -16,7 +16,7 @@ const Sidebar = () => {
       </div>
 
       {/* Dropdown menu */}
-      <div className="absolute left-0 hidden group-hover:block w-[200px] bg-black border border-gray-700 rounded-[10px] shadow-[20px] py-[5px] z-10">
+      <div style={{backgroundColor: "rgba(24, 21, 16, 0.4)"}} className="absolute left-0 hidden group-hover:block w-[200px] border border-gray-700 rounded-[10px] shadow-[20px] py-[5px] z-10">
         <LinkComponent link="/user/profile" title="Profil uzytkownika"/>
         <LinkComponent link="./" title="Główna"/>
         <LinkComponent link="./" title="Karnet"/>

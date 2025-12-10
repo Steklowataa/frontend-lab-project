@@ -88,7 +88,9 @@ export function useTrainingSchedule(startDate: string, endDate: string) {
   const trainingsByDayAndHour = useMemo(() => {
     const mapped: Record<string, Training> = {};
     trainings.forEach(t => {
-      mapped[`${t.day}-${t.hour}`] = t;
+      if (t.day) {
+        mapped[`${t.day.trim()}-${t.hour}`] = t;
+      }
     });
     return mapped;
   }, [trainings]);
@@ -96,7 +98,7 @@ export function useTrainingSchedule(startDate: string, endDate: string) {
   const activeDayTrainings = useMemo(() => {
     if (!activeDay) return [];
     const activeDayKey = dayMap[activeDay.getDay()];
-    return trainings.filter(t => t.day === activeDayKey);
+    return trainings.filter(t => t.day && t.day.trim() === activeDayKey);
   }, [activeDay, trainings]);
 
   const hoursForActiveDay = useMemo(() => {
@@ -104,8 +106,16 @@ export function useTrainingSchedule(startDate: string, endDate: string) {
     const hours = activeDayTrainings.map(t => t.hour);
     const min = Math.min(...hours);
     const max = Math.max(...hours);
-    return Array.from({ length: max - min + 1 }, (_, i) => min + i);
-  }, [activeDayTrainings]);
+    let availableHours = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+
+    const isToday = activeDay ? new Date().toDateString() === activeDay.toDateString() : false;
+    if (isToday) {
+      const currentHour = new Date().getHours();
+      availableHours = availableHours.filter(hour => hour > currentHour);
+    }
+
+    return availableHours;
+  }, [activeDay, activeDayTrainings]);
 
   return {
     trainings,

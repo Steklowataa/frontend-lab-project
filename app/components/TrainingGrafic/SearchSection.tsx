@@ -1,19 +1,20 @@
+import type { Dispatch, SetStateAction } from "react";
 import ButtonGradient from "../ButtonGradient";
 import SearchInput from "./SearchInput";
 
 interface SearchSectionProps {
   startDate: string;
   endDate: string;
-  onStartDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onEndDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setStartDate: Dispatch<SetStateAction<string>>;
+  setEndDate: Dispatch<SetStateAction<string>>;
   onSearch: () => void;
 }
 
 export default function SearchSection({
   startDate,
   endDate,
-  onStartDateChange,
-  onEndDateChange,
+  setStartDate,
+  setEndDate,
   onSearch
 }: SearchSectionProps) {
   return (
@@ -27,15 +28,15 @@ export default function SearchSection({
       <SearchInput 
         id="startDate" 
         label="Od:" 
-        value={startDate} 
-        onChange={onStartDateChange} 
+        date={startDate} 
+        setDate={setStartDate} 
       /> 
 
       <SearchInput 
         id="endDate" 
         label="Do:" 
-        value={endDate} 
-        onChange={onEndDateChange} 
+        date={endDate} 
+        setDate={setEndDate} 
       />
 
       <ButtonGradient nameButton="Pokaż" onClick={onSearch} />

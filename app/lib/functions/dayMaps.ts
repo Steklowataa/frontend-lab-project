@@ -3,32 +3,32 @@
 // Mapowanie indexu dnia (0-6) na skróty
 export const dayMap: { [key: number]: string } = {
   0: "nd",
-  1: "pn",
+  1: "pon",
   2: "wt",
   3: "sr",
-  4: "cz",
+  4: "czw",
   5: "pt",
-  6: "so",
+  6: "sb",
 };
 
 // Pełne nazwy dni (jeśli potrzebne gdzie indziej)
 export const dayDisplayMap: { [key: string]: string } = {
-  pn: "Poniedziałek",
+  pon: "Poniedziałek",
   wt: "Wtorek",
   sr: "Środa",
-  cz: "Czwartek",
+  czw: "Czwartek",
   pt: "Piątek",
-  so: "Sobota",
+  sb: "Sobota",
   nd: "Niedziela",
 };
 
 // Skróty dni na potrzeby przycisków
 export const dayShortMap: { [key: string]: string } = {
-  pn: "PN",
+  pon: "PN",
   wt: "WT",
   sr: "SR",
-  cz: "CZ",
+  czw: "CZ",
   pt: "PT",
-  so: "SO",
+  sb: "SB",
   nd: "ND",
 };

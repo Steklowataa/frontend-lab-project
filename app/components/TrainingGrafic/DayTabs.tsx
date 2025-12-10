@@ -1,5 +1,7 @@
 import ButtonGrafic from "./ButtonGrafic";
 import { dayMap, dayShortMap } from "../../lib/functions/dayMaps";
+import { BsArrowRightCircleFill, BsArrowLeftCircleFill } from "react-icons/bs";
+
 
 interface DayTabsProps {
   displayedDays: Date[];
@@ -41,7 +43,7 @@ export default function DayTabs({
           opacity: weekOffset === 0 ? 0.25 : 1
         }}
       >
-        &lt;
+        <BsArrowLeftCircleFill />
       </button>
 
       <div style={{ display: 'flex', gap: '8px' }}>
@@ -80,7 +82,7 @@ export default function DayTabs({
           opacity: weekOffset + 7 >= totalDays ? 0.25 : 1
         }}
       >
-        &gt;
+        <BsArrowRightCircleFill/>
       </button>
     </div>
   );

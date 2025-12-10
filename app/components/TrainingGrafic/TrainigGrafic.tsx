@@ -1,5 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useAuth } from "../../lib/AuthContext";
+import { db } from "../../lib/firebase/firebase";
+import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import type { Training, SignedUpTraining } from "../../lib/types/training";
 import { useTrainingSchedule } from "../../lib/hooks/useTrainingSchedule";
+import { useSignedUpTrainings } from "../../lib/hooks/useSignedUpTrainings";
 import ScheduleHeader from "./ScheduleHeader";
 import SearchSection from "./SearchSection";
 import ErrorMessage from "./ErrorMessage";
@@ -10,13 +15,15 @@ import ShowMoreButton from "./ShowMoreButton";
 import SidePanel from "./SidePanel";
 
 export default function TrainingGrafic() {
+  const { user } = useAuth();
   const today = new Date().toISOString().split("T")[0];
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
   const [showAll, setShowAll] = useState(false);
+  const { signedUpTrainings, setSignedUpTrainings } = useSignedUpTrainings();
 
   const {
-    trainings,
+    // trainings,
     loading,
     error,
     allSelectedDates,
@@ -24,7 +31,7 @@ export default function TrainingGrafic() {
     activeDay,
     hasSearched,
     displayedDays,
-    activeDayTrainings,
+    // activeDayTrainings,
     hoursForActiveDay,
     trainingsByDayAndHour,
     handleSearch,
@@ -33,36 +40,78 @@ export default function TrainingGrafic() {
     setActiveDay,
   } = useTrainingSchedule(startDate, endDate);
 
-  useEffect(() => {
+  const handleSignUp = async (training: Training, date: Date) => {
+    if (!user) {
+      alert("Musisz być zalogowany, aby zapisać się na zajęcia.");
+      return;
+    }
+
+    const trainingDate = new Date(date);
+    trainingDate.setHours(training.hour, 0, 0, 0);
+
+    const newSignUp: Omit<SignedUpTraining, 'docId'> = {
+      ...training,
+      signUpId: `${training.id}-${trainingDate.toISOString()}`,
+      date: trainingDate.toISOString(),
+    };
+
+    if (signedUpTrainings.some(t => t.signUpId === newSignUp.signUpId)) {
+      return; // Already signed up
+    }
+
+    try {
+      const docRef = await addDoc(collection(db, "users", user.uid, "signedUpTrainings"), newSignUp);
+      setSignedUpTrainings(prev => 
+        [...prev, { ...newSignUp, docId: docRef.id }].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      );
+    } catch (error) {
+      console.error("Error signing up for training:", error);
+      alert("Wystąpił błąd podczas zapisywania na zajęcia. Spróbuj ponownie.");
+    }
+  };
+
+  const handleUnsubscribe = async (docId: string) => {
+    if (!user) return;
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "signedUpTrainings", docId));
+      setSignedUpTrainings(prev => prev.filter(t => t.docId !== docId));
+    } catch (error) {
+      console.error("Error unsubscribing from training:", error);
+      alert("Wystąpił błąd podczas wypisywania z zajęć. Spróbuj ponownie.");
+    }
+  };
+
+   const handleDayClick = (date: Date) => {
+    setActiveDay(date);
     setShowAll(false);
-  }, [activeDay]);
+  };
 
   return (
     <div style={{
       display: 'flex',
-      minHeight: '100vh',
-      paddingTop: '32px',
-      paddingBottom: '32px'
+      paddingTop: '12px',
+      paddingBottom: '32px',
+      gap: '50px'
     }}>
-      {/* Left side - main content */}
+      {/* lewa strona */}
       <div style={{ 
-        marginLeft: '70px',
+        marginLeft: '-100px',
         width: '800px',
-        maxWidth: '100%'
+        maxWidth: '100%',
       }}>
         <ScheduleHeader />
 
         <SearchSection
           startDate={startDate}
           endDate={endDate}
-          onStartDateChange={(e) => setStartDate(e.target.value)}
-          onEndDateChange={(e) => setEndDate(e.target.value)}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
           onSearch={handleSearch}
         />
 
         {error && <ErrorMessage message={error} />}
 
-        {/* Schedule Container */}
+        {/* rozklad zajec */}
         <div style={{ minHeight: '500px' }}>
           {loading && <LoadingSpinner />}
 
@@ -75,17 +124,18 @@ export default function TrainingGrafic() {
                 totalDays={allSelectedDates.length}
                 onPrevWeek={handlePrevWeek}
                 onNextWeek={handleNextWeek}
-                onDayClick={setActiveDay}
+                onDayClick={handleDayClick}
               />
 
               {activeDay && (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <ScheduleList
                   activeDay={activeDay}
-                  hoursForActiveDay={showAll ? hoursForActiveDay : hoursForActiveDay.slice(0, 3)}
+                  hoursForActiveDay={showAll ? hoursForActiveDay : hoursForActiveDay.slice(0, 4)}
                   trainingsByDayAndHour={trainingsByDayAndHour}
+                  onSignUp={handleSignUp}
                 />
-                {hoursForActiveDay.length > 3 && !showAll && (
+                {hoursForActiveDay.length > 4 && !showAll && (
                   <ShowMoreButton onClick={() => setShowAll(true)} />
                 )}
                 </div>
@@ -95,8 +145,8 @@ export default function TrainingGrafic() {
         </div>
       </div>
 
-      {/* Right side - blue rectangle */}
-      <SidePanel />
+      {/* to po prawej */}
+      <SidePanel signedUpTrainings={signedUpTrainings} onUnsubscribe={handleUnsubscribe} />
     </div>
   );
 }
