@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GymFit - Aplikacja do rezerwacji zajęć fitness
 
-## Getting Started
+![GymFit](public/images/main.png)
 
-First, run the development server:
+Nowoczesna aplikacja internetowa do przeglądania grafiku zajęć i zapisywania się na treningi w siłowni. Projekt został zbudowany z wykorzystaniem najnowszych technologii webowych, z naciskiem na responsywność i płynne działanie.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Główne funkcjonalności
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   **Rejestracja i logowanie użytkowników:** Bezpieczny system uwierzytelniania z weryfikacją adresu e-mail, oparty na Firebase Authentication.
+-   **Dynamiczny grafik zajęć:** Interaktywny kalendarz umożliwiający przeglądanie dostępnych treningów.
+-   **Zapisy na zajęcia:** Prosty system rezerwacji miejsc na wybrane treningi.
+-   **Responsywny design:** Aplikacja jest w pełni dostosowana do urządzeń mobilnych i desktopowych.
+-   **Płynne animacje:** Interfejs został wzbogacony o subtelne animacje, które poprawiają doświadczenia użytkownika.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Użyte technologie
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   **Framework:** [Next.js](https://nextjs.org/)
+-   **Język:** [TypeScript](https://www.typescriptlang.org/)
+-   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+-   **Backend i uwierzytelnianie:** [Firebase](https://firebase.google.com/)
+-   **Animacje:** [Framer Motion](https://www.framer.com/motion/)
+-   **Deployment:** [Vercel](https://vercel.com/)
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+4.  **Uruchom serwer deweloperski:**
+    ```bash
+    npm run dev
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    Otwórz przeglądarkę i przejdź pod adres [http://localhost:3000](http://localhost:3000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Dostępne skrypty
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   `npm run dev`: Uruchamia aplikację w trybie deweloperskim.
+-   `npm run build`: Buduje aplikację do wersji produkcyjnej.
+-   `npm run start`: Uruchamia serwer produkcyjny.
+-   `npm run lint`: Uruchamia lintera w celu sprawdzenia kodu.
