@@ -6,6 +6,7 @@ import backgroundImg from "@/public/images/backgroundImg.jpg";
 import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence, signOut, sendEmailVerification } from "firebase/auth";
 import { auth } from "@/app/lib/firebase/firebase";
 import { useSearchParams, useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 
 const SignInContent = () => {
@@ -49,18 +50,34 @@ const SignInContent = () => {
   };
   
   return (
-    <>
-    <Image src={backgroundImg} placeholder="blur" alt="" width={1920} height={1080} style={{position: "absolute", zIndex: -1, filter: 'brightness(40%)'}}/>
+    <div className="relative min-h-screen">
+      <Image
+        src={backgroundImg}
+        alt="Tło"
+        placeholder="blur"
+        fill
+        priority
+        style={{
+          objectFit: "cover",
+          zIndex: -1,
+          filter: "brightness(40%)",
+        }}
+      />
     {error && (
         <div className="absolute top-0 left-0 w-full bg-black text-white p-4 text-center z-10">
             {error}
         </div>
     )}
      <main className="flex min-h-screen flex-col items-center justify-center">
-       <SignInForm onSubmit={onSubmit} />
+       <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+       >
+        <SignInForm onSubmit={onSubmit} />
+       </motion.div>
     </main>
-    </>
-
+    </div>
   );
 };
 
