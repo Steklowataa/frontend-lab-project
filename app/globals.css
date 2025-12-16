@@ -24,8 +24,14 @@ button {
   border: none;
   outline: none;
 }
+@layer base {
+  a, a:visited {
+    color: inherit;
+    text-decoration: none;
+  }
+}
 
-a, a:visited {
-  color: inherit;
-  text-decoration: none;
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
