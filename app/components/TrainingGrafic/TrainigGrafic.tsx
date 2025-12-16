@@ -82,9 +82,6 @@ export default function TrainingGrafic() {
     setShowAll(false);
   };
 
-  /* ===================================================== */
-  /* ===================== MOBILE ======================== */
-  /* ===================================================== */
 
   if (isMobile) {
     return (
@@ -144,14 +141,20 @@ export default function TrainingGrafic() {
     );
   }
 
-  /* ===================================================== */
-  /* ==================== DESKTOP ======================== */
-  /* ===================================================== */
 
-  return (
-    <div style={{ display: "flex", gap: "50px", padding: "32px" }}>
-      {/* LEWA */}
-      <div style={{ width: "800px" }}>
+   return (
+    <div style={{
+      display: 'flex',
+      paddingTop: '12px',
+      paddingBottom: '32px',
+      gap: '50px'
+    }}>
+      {/* lewa strona */}
+      <div style={{ 
+        marginLeft: '-100px',
+        width: '800px',
+        maxWidth: '100%',
+      }}>
         <ScheduleHeader />
 
         <SearchSection
@@ -163,45 +166,43 @@ export default function TrainingGrafic() {
         />
 
         {error && <ErrorMessage message={error} />}
-        {loading && <LoadingSpinner />}
 
-        {hasSearched && (
-          <>
-            <DayTabs
-              displayedDays={displayedDays}
-              activeDay={activeDay}
-              weekOffset={weekOffset}
-              totalDays={allSelectedDates.length}
-              onPrevWeek={handlePrevWeek}
-              onNextWeek={handleNextWeek}
-              onDayClick={handleDayClick}
-            />
+        {/* rozklad zajec */}
+        <div style={{ minHeight: '500px' }}>
+          {loading && <LoadingSpinner />}
 
-            {activeDay && (
-              <>
+          {!loading && hasSearched && allSelectedDates.length > 0 && (
+            <div>
+              <DayTabs
+                displayedDays={displayedDays}
+                activeDay={activeDay}
+                weekOffset={weekOffset}
+                totalDays={allSelectedDates.length}
+                onPrevWeek={handlePrevWeek}
+                onNextWeek={handleNextWeek}
+                onDayClick={handleDayClick}
+              />
+
+              {activeDay && (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <ScheduleList
                   activeDay={activeDay}
-                  hoursForActiveDay={
-                    showAll ? hoursForActiveDay : hoursForActiveDay.slice(0, 4)
-                  }
+                  hoursForActiveDay={showAll ? hoursForActiveDay : hoursForActiveDay.slice(0, 4)}
                   trainingsByDayAndHour={trainingsByDayAndHour}
                   onSignUp={handleSignUp}
                 />
-
                 {hoursForActiveDay.length > 4 && !showAll && (
                   <ShowMoreButton onClick={() => setShowAll(true)} />
                 )}
-              </>
-            )}
-          </>
-        )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* PRAWA */}
-      <SidePanel
-        signedUpTrainings={signedUpTrainings}
-        onUnsubscribe={handleUnsubscribe}
-      />
+      {/* to po prawej */}
+      <SidePanel signedUpTrainings={signedUpTrainings} onUnsubscribe={handleUnsubscribe} />
     </div>
   );
 }

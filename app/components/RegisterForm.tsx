@@ -2,26 +2,28 @@
 import InputField from "@/app/components/InputField";
 import Link from "next/link";
 import ButtonBlack from "@/app/components/ButtonBlack";
-import { useState } from "react";
+import { Dispatch, SetStateAction, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
 import { useAuth } from "@/app/lib/AuthContext";
 
-export default function RegisterForm() {
+interface RegisterFormProps {
+    setRegisterError: Dispatch<SetStateAction<string>>;
+}
+
+export default function RegisterForm({ setRegisterError }: RegisterFormProps) {
     const { user } = useAuth();
     const router = useRouter();
-    const [registerError, setRegisterError] = useState("");
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(e.currentTarget);
-        console.log("fields:", e.currentTarget.email, e.currentTarget.password, e.currentTarget.passwordConfirm);
 
         setRegisterError("");
 
-        const email = e.currentTarget.email.value
-        const password = e.currentTarget.password.value
-        const passwordConfirm = e.currentTarget.passwordConfirm.value
+        const form = e.currentTarget;
+        const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+        const password = (form.elements.namedItem('password') as HTMLInputElement).value;
+        const passwordConfirm = (form.elements.namedItem('passwordConfirm') as HTMLInputElement).value;
 
         if (password !== passwordConfirm) {
             setRegisterError("Hasła nie są takie same.");
@@ -54,17 +56,6 @@ export default function RegisterForm() {
 
     return (
         <>
-        {registerError && (
-            <div
-                style={{
-                color: "red",
-                backgroundColor: "transparent",
-                padding: 8,
-                borderRadius: 6
-                }}>
-                    {registerError} 
-            </div>
-         )}
          <div
             style={{
                 backgroundColor: "rgba(245, 255, 234, 0.1)",

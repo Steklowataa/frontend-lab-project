@@ -35,7 +35,7 @@ export default function Home() {
     return (
       <>
         <Header />
-        <main className="bg-black min-h-screen flex justify-center items-center">
+        <main className="bg-black min-h-screen flex justify-center items-center lg:hidden">
           <HomePageMobile />
         </main>
       </>
@@ -46,7 +46,7 @@ export default function Home() {
     <>
       <Header />
 
-      <main className="relative bg-black min-h-screen flex justify-center">
+      <main className="relative bg-black min-h-screen justify-center hidden lg:flex">
         <Image
           src="/images/main.png"
           alt=""

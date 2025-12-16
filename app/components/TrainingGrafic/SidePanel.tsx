@@ -12,7 +12,7 @@ export default function SidePanel({ signedUpTrainings, onUnsubscribe }: SidePane
     <div style={{
       marginTop: "50px",
       width: '400px',
-      minHeight: '600px',
+      minHeight: '300px',
       borderRadius: '16px',
       background: 'rgba(235, 240, 230, 0.2)',
       backdropFilter: "blur(10px)",
