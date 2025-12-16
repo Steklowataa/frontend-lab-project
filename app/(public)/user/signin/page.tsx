@@ -1,13 +1,14 @@
 "use client";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, Suspense } from "react";
 import SignInForm from "../../../components/SignInForm";
 import Image from "next/image";
+import backgroundImg from "@/public/images/backgroundImg.jpg";
 import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence, signOut, sendEmailVerification } from "firebase/auth";
 import { auth } from "@/app/lib/firebase/firebase";
 import { useSearchParams, useRouter } from "next/navigation";
 
 
-export default function SignInPage() {
+const SignInContent = () => {
   const [error, setError] = useState("");
   const params = useSearchParams();
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function SignInPage() {
   
   return (
     <>
-    <Image src="/images/backgroundImg.jpg" alt="" width={1920} height={1080} style={{position: "absolute", zIndex: -1, filter: 'brightness(40%)'}}/>
+    <Image src={backgroundImg} placeholder="blur" alt="" width={1920} height={1080} style={{position: "absolute", zIndex: -1, filter: 'brightness(40%)'}}/>
     {error && (
         <div className="absolute top-0 left-0 w-full bg-black text-white p-4 text-center z-10">
             {error}
@@ -60,5 +61,13 @@ export default function SignInPage() {
     </main>
     </>
 
+  );
+};
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<div>Ładowanie...</div>}>
+      <SignInContent />
+    </Suspense>
   );
 }

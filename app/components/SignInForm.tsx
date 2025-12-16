@@ -10,7 +10,7 @@ export default function SignInForm({ onSubmit }: {onSubmit: (e: FormEvent<HTMLFo
         <div style={{backgroundColor: "rgba(245, 255, 234, 0.1)", boxShadow: "inset 0 8px 16px 0 rgba(128, 255, 0, 0.2)"}} className="w-[360px] h-[460px] rounded-[20px] p-[20px] backdrop-blur-[20px]">
             <form onSubmit={onSubmit} className="h-full flex flex-col justify-center items-center">
                 <div className="text-[20px] [font-family:var(--font-manropeSemiBold)] mb-[20px]"> Zaloguj się</div>
-            <div className="w-full max-w-[280px]">
+            <div className="w-full max-w-[300px]">
                 <InputField
                     id="email"
                     name="email"
@@ -21,7 +21,7 @@ export default function SignInForm({ onSubmit }: {onSubmit: (e: FormEvent<HTMLFo
                 />
             </div>
 
-            <div className="mt-[20px] w-full max-w-[280px]">
+            <div className="mt-[20px] w-full max-w-[300px]">
                 <InputField
                     id="password"
                     name="password"

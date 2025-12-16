@@ -1,4 +1,11 @@
-const TrainigElement = ({hour, training}) => {
+import { Training } from "@/app/lib/types/training";
+
+interface TrainigElementProps {
+    hour: number;
+    training: Training;
+}
+
+const TrainigElement = ({ hour, training }: TrainigElementProps) => {
     return (
         <>  
             <div className="grid grid-cols-[auto_1fr] items-center bg-black/30 rounded p-2 min-h-[60px] gap-4">

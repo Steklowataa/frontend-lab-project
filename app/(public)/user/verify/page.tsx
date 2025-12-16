@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/app/lib/AuthContext';
 import { getAuth, signOut } from 'firebase/auth';
 import { useSearchParams } from 'next/navigation';
 
-export default function VerifyPage() {
+const VerifyContent = () => {
   const { user } = useAuth();
   const [email, setEmail] = useState<string | null>(null);
   const searchParams = useSearchParams();
@@ -47,5 +47,13 @@ export default function VerifyPage() {
         Przejdź do logowania
       </Link>
     </main>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={<div>Ładowanie...</div>}>
+      <VerifyContent />
+    </Suspense>
   );
 }

@@ -10,7 +10,7 @@ function Protected({children}: {children: React.ReactNode}) {
 
     useLayoutEffect(() => {
         if (!user){
-            redirect(`/user/singin?returnUrl=${returnUrl}`);
+            redirect(`/user/signin?returnUrl=${returnUrl}`);
         }
     }, []);
     return ( <>
