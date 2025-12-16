@@ -14,7 +14,7 @@
     "dotenv": "^17.2.3",
     "firebase": "^12.6.0",
     "framer-motion": "^12.23.26",
-    "next": "^16.1.0-canary.28",
+    "next": "^16.0.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0"
