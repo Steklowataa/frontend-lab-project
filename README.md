@@ -1,6 +1,6 @@
 # GymFit - Aplikacja do rezerwacji zajęć fitness
+## Link do strony Live https://frontend-lab-project-eight.vercel.app/
 
-![GymFit](public/images/main.png)
 
 Nowoczesna aplikacja internetowa do przeglądania grafiku zajęć i zapisywania się na treningi w siłowni. Projekt został zbudowany z wykorzystaniem najnowszych technologii webowych, z naciskiem na responsywność i płynne działanie.
 
